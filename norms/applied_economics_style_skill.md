@@ -12,8 +12,8 @@ description: >
   Theoretical Model, Data & Variables, Empirical Results & Robustness, Conclusion.
 version: 1.0
 corpus: 53 papers, 575 text chunks, ~320,000 words
-vector_db: E:\result\output\jsonl\economics_papers_vectors.jsonl
-faiss_index: E:\result\output\faiss\economics_papers.index
+vector_db: <REPO_ROOT>/data/economics_papers_vectors.jsonl
+faiss_index: <REPO_ROOT>/data/economics_papers.index
 ```
 
 ---
@@ -904,9 +904,9 @@ Based on their complete absence from the 575-chunk, 320,000-word corpus:
 When rewriting a manuscript section to match AE style, retrieve relevant exemplar chunks from the vector database:
 
 ```
-Vector DB Path: E:\result\output\jsonl\economics_papers_vectors.jsonl
-FAISS Index: E:\result\output\faiss\economics_papers.index
-Metadata: E:\result\output\faiss\economics_papers_meta.json
+Vector DB Path: <REPO_ROOT>/data/economics_papers_vectors.jsonl
+FAISS Index: <REPO_ROOT>/data/economics_papers.index
+Metadata: <REPO_ROOT>/data/economics_papers_meta.json
 ```
 
 **Retrieval procedure (Python):**
@@ -915,18 +915,22 @@ import json
 import numpy as np
 from sentence_transformers import SentenceTransformer
 import faiss
+import os
+
+# Set repo root to the directory containing this skill
+REPO_ROOT = os.path.dirname(os.path.abspath(__file__))  # or set manually
 
 # Load model and index
 model = SentenceTransformer('all-mpnet-base-v2')
-index = faiss.read_index('E:/result/output/faiss/economics_papers.index')
+index = faiss.read_index(os.path.join(REPO_ROOT, 'data', 'economics_papers.index'))
 
 # Load metadata
-with open('E:/result/output/faiss/economics_papers_meta.json', 'r') as f:
+with open(os.path.join(REPO_ROOT, 'data', 'economics_papers_meta.json'), 'r') as f:
     metadata = json.load(f)
 
 # Load JSONL records for full text retrieval
 records = []
-with open('E:/result/output/jsonl/economics_papers_vectors.jsonl', 'r', encoding='utf-8') as f:
+with open(os.path.join(REPO_ROOT, 'data', 'economics_papers_vectors.jsonl'), 'r', encoding='utf-8') as f:
     for line in f:
         records.append(json.loads(line))
 
