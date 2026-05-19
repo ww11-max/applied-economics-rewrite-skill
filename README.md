@@ -1,6 +1,6 @@
 # Applied Economics Rewrite Skill
 
-基于 53 篇 **Applied Economics**（Taylor & Francis SSCI 期刊，2020-2026）已发表论文萃取的写作规范 Skill，用于将经济学论文初稿改写为 AE 期刊投稿标准。
+基于 **Applied Economics**（Taylor & Francis SSCI 期刊）已发表论文萃取的写作规范 Skill，用于将经济学论文初稿改写为 AE 期刊投稿标准。
 
 ## 快速安装
 
@@ -17,9 +17,9 @@ python install.py
 | 目录/文件 | 说明 |
 |---|---|
 | `skill/SKILL.md` | Claude Code Skill 模板文件 |
-| `norms/applied_economics_style_skill.md` | 完整写作规范（7章节×6维度，51KB） |
+| `norms/applied_economics_style_skill.md` | 完整写作规范（7章节×6维度） |
 | `rag_retriever.py` | 独立 RAG 检索器 |
-| `data/` | 预构建向量库（575块，768维 FAISS 索引） |
+| `data/` | 预构建向量库（FAISS 索引） |
 | `install.py` | 一键安装脚本 |
 
 ## 使用方式
@@ -42,16 +42,16 @@ python rag_retriever.py --stats
 
 ## 支持的章节类型
 
-| 类型 | 标识 | 语料量 |
-|---|---|---|
-| 摘要 | `abstract` | 50 |
-| 引言 | `introduction` | 163 |
-| 文献综述 | `literature_review` | 57 |
-| 理论模型 | `theoretical_model` | 30 |
-| 数据与变量 | `data_and_variables` | 103 |
-| 实证结果 | `empirical_results` | 87 |
-| 稳健性 | `robustness` | 39 |
-| 结论 | `conclusion` | 46 |
+| 类型 | 标识 |
+|---|---|
+| 摘要 | `abstract` |
+| 引言 | `introduction` |
+| 文献综述 | `literature_review` |
+| 理论模型 | `theoretical_model` |
+| 数据与变量 | `data_and_variables` |
+| 实证结果 | `empirical_results` |
+| 稳健性 | `robustness` |
+| 结论 | `conclusion` |
 
 ## 依赖
 

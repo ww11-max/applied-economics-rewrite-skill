@@ -6,12 +6,11 @@
 name: applied-economics-rewrite
 description: >
   Rewrite economics research manuscripts to match Applied Economics (Taylor & Francis SSCI)
-  journal writing conventions. Uses RAG retrieval against a vector database of 53 published
-  AE papers (2020-2026) to ground every stylistic decision in real published exemplars.
+  journal writing conventions. Uses RAG retrieval against a vector database of published
+  AE papers to ground every stylistic decision in real published exemplars.
   Covers all 7 standard chapter types: Abstract, Introduction, Literature Review,
   Theoretical Model, Data & Variables, Empirical Results & Robustness, Conclusion.
 version: 1.0
-corpus: 53 papers, 575 text chunks, ~320,000 words
 vector_db: <REPO_ROOT>/data/economics_papers_vectors.jsonl
 faiss_index: <REPO_ROOT>/data/economics_papers.index
 ```
@@ -20,20 +19,7 @@ faiss_index: <REPO_ROOT>/data/economics_papers.index
 
 ## DATA SOURCE & CORPUS OVERVIEW
 
-All norms below are extracted exclusively from 53 published Applied Economics articles (2020-2026). Chapter type distribution:
-
-| Chapter Type | Chunks | Words | Papers with Section |
-|---|---|---|---|
-| Abstract | 50 | 8,051 | 50/53 |
-| Introduction | 163 | 104,321 | 53/53 |
-| Literature Review | 57 | 34,457 | ~40/53 |
-| Theoretical Model | 30 | 17,418 | ~30/53 |
-| Data & Variables | 103 | 61,341 | ~48/53 |
-| Empirical Results | 87 | 53,231 | ~45/53 |
-| Robustness | 39 | 21,597 | ~30/53 |
-| Conclusion | 46 | 23,228 | ~40/53 |
-
-**Critical constraint:** Every norm is derived from high-frequency patterns observed across multiple papers in this corpus. Do NOT apply generic academic writing advice that contradicts the specific evidence below. When a norm states a frequency threshold, it means the pattern appears in ≥30% of the relevant chunks and is the dominant form.
+All norms below are extracted exclusively from published Applied Economics articles. Every norm is derived from high-frequency patterns observed across multiple papers in this corpus. Do NOT apply generic academic writing advice that contradicts the specific evidence below. When a norm states a frequency threshold, it means the pattern is the dominant form in the corpus.
 
 ---
 
@@ -41,14 +27,14 @@ All norms below are extracted exclusively from 53 published Applied Economics ar
 
 ### 1.1 Structure Logic
 
-**Fixed sequence (observed in 46/50 abstracts):**
+**Fixed sequence (high-frequency):**
 
 1. **Research objective/motivation** — Sentence 1: What this paper does. Opens with "We examine", "This study investigates", or "This paper analyses".
 2. **Method/approach** — Sentence 2-3: Data source, sample period, methodology name. Opens with "Using...", "We use...", or methodology is named inline.
 3. **Key findings** — Sentence 3-5: Core empirical results. Opens with "We find that", "The results show that", "Our findings demonstrate that".
 4. **Implications/contribution** — Final 1-2 sentences: Policy relevance or literature contribution. Opens with "These results", "Our findings", "This research contributes to".
 
-**Critical structural rule:** Applied Economics abstracts are single-paragraph (50/50 chunks). No sub-headings, no multi-paragraph abstracts. Average length: 142 words (P50 = 150 words). Range: ~100-200 words.
+**Critical structural rule:** Applied Economics abstracts are single-paragraph (all sampled abstracts). No sub-headings, no multi-paragraph abstracts. Average length: ~150 words. Range: compact.
 
 **Anti-patterns (absent from corpus):**
 - No structured abstracts with labeled sub-sections (Background/Aim/Methods/Results)
@@ -58,7 +44,7 @@ All norms below are extracted exclusively from 53 published Applied Economics ar
 
 ### 1.2 Paragraph Layout
 
-- **Single paragraph, block prose** (50/50). No line breaks within abstract.
+- **Single paragraph, block prose** (all sampled). No line breaks within abstract.
 - Average sentence count: 5-7 sentences.
 - Sentence length: medium-long, often multi-clause (see trigram data: "and economic growth", "over the period", "based on the").
 - Dense information packaging: method and finding often co-occur in one sentence (e.g., "Using [method], we find that [result]").
@@ -92,39 +78,39 @@ All norms below are extracted exclusively from 53 published Applied Economics ar
 **High-frequency content vocabulary (top trigrams, normalized):**
 
 *Study/paper self-reference:*
-- "this study" (7), "we examine" (7), "this paper" (5), "we find that" (7)
+- "this study" "we examine" "this paper" (5), "we find that" (7)
 - Dominant pattern: "This study/paper + investigates/examines/analyses" (NOT "In this paper we try to...")
 
 *Result reporting:*
-- "results show that" (11), "results indicate that" (5), "we find that" (7), "the empirical results" (8)
+- "results show that" "results indicate that" (5), "we find that" "the empirical results" (8)
 - NEVER "we try to", "we attempt to", "we hope to"
 
 *Relationship description:*
-- "the impact of" (11), "the effects of" (10), "the relationship between" (9)
+- "the impact of" "the effects of" (10), "the relationship between" (9)
 - "a significant and positive" (3), "is associated with" (4)
 
 *Contribution language:*
 - "contributes to" (4), "novel" (4), "first time" (3), "contribution" (3)
 - Modest framing: contributions are stated as "This research contributes to the existing literature on X" rather than "This is the first paper to ever..."
 
-**Hedging profile:** Abstract hedging is MINIMAL compared to other chapters (7,974 words, only 29 total hedging instances). When hedging is used:
+**Hedging profile:** Abstract hedging is MINIMAL compared to other chapters (minimal hedging). When hedging is used:
 - "suggest(s) that" (6), "indicate(s) that" (6) — the dominant weak-claim markers
-- "likely" (7), "may" (5) — the dominant probability qualifiers
+- "likely" "may" (5) — the dominant probability qualifiers
 - "should" (7) — used exclusively for policy recommendations, NOT for hedging claims
 
 **Anti-patterns (absent or near-absent):**
-- No "might" (0 occurrences)
+- No "might" (absent)
 - No "perhaps", "maybe", "could possibly"
 - No "to the best of our knowledge" (this belongs in Introduction, not Abstract)
 
 ### 1.5 Voice & Tense Conventions
 
-**Voice:** Active voice dominant. "We" is the standard agent (72 "we" constructions vs 60 passive constructions — nearly 1:1 ratio).
+**Voice:** Active voice dominant. "We" is the standard agent (active "we" and passive constructions are roughly balanced).
 
-- "We examine" (7), "We find" (7), "We use" (5), "We conclude" (2)
+- "We examine" "We find" "We use" (5), "We conclude" (2)
 - Passive reserved for: "It was found that" (rare, 1-2 occurrences), methodological descriptions: "was employed", "were used"
 
-**Tense:** Present tense dominant throughout (20 present vs 1 past markers).
+**Tense:** Present tense dominant throughout present tense dominant.
 - Research action: present ("This study examines", "We investigate")
 - Findings: present ("The results show", "We find that")
 - NEVER "This study examined" or "We investigated" in abstract
@@ -147,7 +133,7 @@ Abstract transitions are sparse by design (compact prose). When used:
 
 ### 2.1 Structure Logic
 
-**Typical introduction structure (observed across 163 chunks, synthesized into standard sequence):**
+**Typical introduction structure (synthesized from corpus):**
 
 1. **Broad context/motivation** (1-2 paragraphs) — Economic phenomenon, policy context, or real-world trend motivating the study. Opens with descriptive statements about the research domain.
 2. **Narrowing/focusing** (1-2 paragraphs) — Refining to the specific angle the paper addresses. Introduces theoretical mechanism or empirical puzzle.
@@ -196,7 +182,7 @@ Abstract transitions are sparse by design (compact prose). When used:
 
 ### 2.4 Academic Vocabulary & Diction
 
-**High-frequency domain vocabulary (from 104,321 words of introduction text):**
+**High-frequency domain vocabulary :**
 
 *Context-setting phrases:*
 - "due to the" (41), "based on the" (41), "the effect of" (40), "such as the" (26)
@@ -217,8 +203,8 @@ Abstract transitions are sparse by design (compact prose). When used:
 - "novel" (19), "extension/extend/extends" (29 total)
 - "fill(s) this gap" (5), "shed(s) light on" (6)
 
-**Hedging profile (introductions are the most hedged chapter):**
-- "may" (154) — by far the most common hedge
+**Hedging profile :**
+- "may" — the most common hedge
 - "likely" (70), "would" (63), "should" (49), "could" (45)
 - "suggest(s) that" (40+) — dominant weak-claim construction
 - "tend(s) to" (31) — distinctive AE usage pattern
@@ -229,25 +215,25 @@ Abstract transitions are sparse by design (compact prose). When used:
 
 **Voice:** Mixed, with a passive preference for establishing context and an active preference for stating the paper's contributions.
 
-- Passive: 961 constructions in 104K words. Context-setting and mechanism descriptions are predominantly passive ("has been the subject of", "is expected to", "are expected to be used").
-- Active "we": 467 constructions. Shifts to active when the paper's own actions are described ("we examine", "we use", "we estimate", "we find").
+- Passive: passive preference for context. Context-setting and mechanism descriptions are predominantly passive ("has been the subject of", "is expected to", "are expected to be used").
+- Active "we" for own contributions. Shifts to active when the paper's own actions are described ("we examine", "we use", "we estimate", "we find").
 
 **Rule:** Context/background → passive or third-person. This paper's actions → active "we".
 
-**Tense:** Present tense dominant (109 present vs 3 past markers).
+**Tense:** Present tense dominant present tense dominant.
 - Established findings from literature: present tense ("The literature advances...", "Previous studies find...")
 - Historical context: past tense ("The 2008 financial crisis triggered...")
 - This paper's action: present ("This paper examines...", "We estimate...")
 
 ### 2.6 Transition & Cohesion Patterns
 
-**Transition profile (from 163 chunks, top transitions):**
+**Transition profile (top transitions):**
 
-- "However": 104 — the primary contrast/concession signal
-- "Therefore": 70 — the primary consequence signal
-- "Thus/thus": 91 combined — consequence/inference
+- "However" — the primary contrast/concession signal
+- "Therefore" — the primary consequence signal
+- "Thus/thus" — consequence/inference
 - Enumeration: "First" (44), "Second" (43), "Third" (27), "Finally" (32) — heavily used for multi-point arguments and contribution lists
-- "Moreover" (34), "Furthermore" (30) — additive emphasis
+- "Moreover", "Furthermore" — additive emphasis
 - "In addition" (26), "Additionally" (11) — neutral additive
 - "For example" (30), "In particular" (15) — exemplification
 - "Similarly" (17) — comparison
@@ -266,7 +252,7 @@ Abstract transitions are sparse by design (compact prose). When used:
 
 **Literature review in Applied Economics follows a thematic-stream organization, NOT chronological or author-by-author listing.**
 
-**Standard structure (from 57 chunks, 34,457 words):**
+**Standard structure :**
 
 1. **Thematic sub-sectioning by research stream** — Literature is organized into thematic "strands" or "streams" (observed: "This study is based on two strands of the literature: one related to... and one that deals with..."). Each stream gets 1-3 paragraphs.
 2. **Within-stream organization:** Classic study → elaboration → recent work → gaps in this stream.
@@ -331,20 +317,20 @@ Abstract transitions are sparse by design (compact prose). When used:
 
 ### 3.5 Voice & Tense Conventions
 
-**Voice:** Strong passive preference for describing literature findings (306 passive vs 77 active "we").
+**Voice:** Strong passive preference for describing literature findings (passive preferred for literature).
 
 - Literature description: passive/third-person dominant ("It has been documented that...", "This effect was found to be...")
 - Hypothesis formulation: active "we" ("Thus, we propose...", "We hypothesize that...")
 - Gap identification: mixed, often active ("we extend", "we contribute")
 
-**Tense:** Present tense dominant (39 present vs 4 past markers).
+**Tense:** Present tense dominant present tense dominant.
 - Describing existing findings: present tense ("X and Y (2020) find that...")
 - Describing specific study actions: past tense ("X and Y (2020) used a sample of...")
 - Rule: present for findings/conclusions; past for what specific researchers did procedurally.
 
 ### 3.6 Transition & Cohesion Patterns
 
-**Transition profile (from 57 chunks):**
+**Transition profile :**
 
 - "Therefore" (34) — leading into hypotheses from literature synthesis
 - "However" (33) — contrasting findings across studies
@@ -431,26 +417,26 @@ Abstract transitions are sparse by design (compact prose). When used:
 
 ### 4.5 Voice & Tense Conventions
 
-**Voice:** Mixed with active preference for procedural steps (115 active "we" vs 224 passive).
+**Voice:** Mixed with active preference for procedural steps (active for procedure, passive for math).
 
 - Procedural description: "we use", "we estimate", "we employ", "we test" (active)
 - Mathematical description: passive dominant ("is denoted by", "can be expressed as", "is assumed to be")
 - Equation explanation: "where X is...", "the term Y captures..."
 
-**Tense:** Present tense dominant (18 present vs 3 past markers).
+**Tense:** Present tense dominant present tense dominant.
 - Method description: present ("We use a VAR model", "We estimate the following equation")
 - Prior work that developed the method: present ("Phillips and Sul (2007) show that...")
 - Diagnostic test results: present ("The test indicates...", "Results show that...")
 
 ### 4.6 Transition & Cohesion Patterns
 
-**Transition profile (from 30 chunks):**
+**Transition profile :**
 
-- Enumeration heavy: "first" (21), "second" (19), "First" (10), "Second" (10), "Finally" (7), "Third" (2)
+- Enumeration heavy: "first" (21), "second" (19), "First" (10), "Second" (10), "Finally" "Third" (2)
 - Sequential procedural: "Then we...", "We then...", "Next we..." — step-by-step method exposition
 - "Thus" (12), "Therefore" (4), "Consequently" (4) — logical inference
 - "However" (9) — method limitation or assumption qualification
-- "In addition" (7), "Moreover" (5), "Furthermore" (5) — adding methodological details
+- "In addition" "Moreover" (5), "Furthermore" (5) — adding methodological details
 - "Specifically" (4) — elaborating on a method detail
 - "Similarly" (5), "In contrast" (2) — comparing methods
 - "In line with" (2), "consistent with" (3) — alignment with prior methodological choices
@@ -502,7 +488,7 @@ Abstract transitions are sparse by design (compact prose). When used:
 
 ### 5.4 Academic Vocabulary & Diction
 
-**High-frequency vocabulary (from 103 chunks, 61,341 words):**
+**High-frequency vocabulary :**
 
 *Measurement/source language:*
 - "based on the" (43), "the number of" (46), "the ratio of" (15)
@@ -513,7 +499,7 @@ Abstract transitions are sparse by design (compact prose). When used:
 *Temporal framing:*
 - "the long term" (45), "the short term" (16), "short and long" (13)
 - "in the short" (20), "in the long" (22), "the sample period" (13)
-- "over the period" (10), "pre and post" (11), "the post covid" (12)
+- "over the period" (10), "pre and post" "the post covid" (12)
 
 *Statistical vocabulary:*
 - "the null hypothesis" (16), "the degree of" (19)
@@ -533,29 +519,29 @@ Abstract transitions are sparse by design (compact prose). When used:
 
 ### 5.5 Voice & Tense Conventions
 
-**Voice:** Mixed (417 active "we" vs 743 passive).
+**Voice:** Mixed (active for data sources, passive for definitions).
 
 - Data source descriptions: "we use", "we obtain", "we collect" (active)
 - Variable definitions: passive tendency ("is measured as", "is defined as", "is calculated as")
 - Sample descriptions: mixed, with passive preferred for inclusion criteria
 - Test descriptions: "we test for", "we conduct", "we apply"
 
-**Tense:** Present tense dominant (47 present vs 9 past markers).
+**Tense:** Present tense dominant present tense dominant.
 - Data description: present ("The data cover...", "The sample includes...")
 - Test results: present ("The test indicates...", "Results confirm...")
 - Historical data context: past ("Data were collected from...")
 
 ### 5.6 Transition & Cohesion Patterns
 
-**Transition profile (from 103 chunks):**
+**Transition profile :**
 
-- Enumeration: "first" (63), "second" (35), "First" (19), "Second" (12), "Third" (7), "Finally" (17) — heavily used in variable listing
+- Enumeration: "first" (63), "second" (35), "First" (19), "Second" (12), "Third" "Finally" (17) — heavily used in variable listing
 - "However" (42) — acknowledging data limitations, qualifying variable choices
 - "Therefore" (33), "Thus" (16) — justifying variable selection
 - "In addition" (19), "Furthermore" (18), "Moreover" (14), "Additionally" (8) — additive for listing variables
 - "consistent with" (12), "In line with" (5), "Consistent with" (4) — aligning variable choices with prior literature
 - "For example" (12), "In contrast" (12) — exemplification and contrast
-- "Specifically" (8), "Hence" (7), "Similarly" (7)
+- "Specifically" (8), "Hence" "Similarly" (7)
 
 **Distinctive pattern:** AE Data sections heavily use "In line with [Author (Year)]" and "Consistent with [Author (Year)]" to justify variable choices — every variable definition is anchored to precedent.
 
@@ -665,16 +651,16 @@ This is one of the most rigidly formulaic patterns in the entire corpus — ever
 **Hedging profile (Robustness — moderate):**
 - "may" (28), "should" (23), "likely" (16)
 - "indicate that" (15), "suggest that" (12)
-- "could" (11), "tend to" (8), "would" (8)
+- "could" "tend to" (8), "would" (8)
 
 ### 6.6 Voice & Tense Conventions
 
-**Results voice:** Mixed (251 active "we" vs 536 passive).
+**Results voice:** Mixed (active for interpretation, passive for table narration).
 - Table narration: mixed ("Table X reports" / "We report in Table X")
 - Coefficient interpretation: active preference ("We find that...", "The results show that...")
 - Consistency checks: passive tendency ("This finding is consistent with...")
 
-**Robustness voice:** Mixed (136 active "we" vs 240 passive).
+**Robustness voice:** Mixed (active for test description, passive for confirmation).
 - Test description: active ("We conduct", "We test", "We re-estimate")
 - Result confirmation: passive tendency ("The results are found to be...")
 
@@ -684,20 +670,20 @@ This is one of the most rigidly formulaic patterns in the entire corpus — ever
 
 ### 6.7 Transition & Cohesion Patterns
 
-**Results transitions (from 87 chunks):**
+**Results transitions :**
 - "However" (44) — qualifying findings, acknowledging unexpected results
 - "consistent with" (30), "in line with" (9) — aligning with prior work/hypotheses
 - "Thus" (22), "therefore" (21), "Therefore" (27) — drawing conclusions from results
-- "Moreover" (21), "In addition" (7), "Furthermore" (7) — additive
+- "Moreover" (21), "In addition" "Furthermore" (7) — additive
 - "In contrast" (16), "On the other hand" (6) — comparing sub-sample results
 - "Finally" (16), "Overall" (15), "In sum" (3) — concluding sub-section
-- "Specifically" (7), "For example" (6) — elaboration
+- "Specifically" "For example" (6) — elaboration
 
-**Robustness transitions (from 39 chunks):**
+**Robustness transitions :**
 - "However" (21), "Therefore" (18) — strongest signals
-- Enumeration: "First" (13), "Second" (11), "First, we" (4), "Second, we" (4), "Finally, we" (2)
+- Enumeration: "First" (13), "Second" "First, we" (4), "Second, we" (4), "Finally, we" (2)
 - "consistent with" (13), "In contrast" (8) — alignment/contrast
-- "Specifically" (7), "In addition" (7), "Furthermore" (6)
+- "Specifically" "In addition" "Furthermore" (6)
 - "Taken together" (2), "In sum" (1) — summary (less common in robustness)
 
 ---
@@ -706,7 +692,7 @@ This is one of the most rigidly formulaic patterns in the entire corpus — ever
 
 ### 7.1 Structure Logic
 
-**Standard conclusion structure (from 46 chunks, 23,228 words):**
+**Standard conclusion structure :**
 
 1. **Restatement of research objective** (1-2 sentences): "In this paper, we [studied/examined/investigated] [topic]." Past or present perfect to summarize what the paper did.
 2. **Summary of key findings** (2-4 paragraphs): The main empirical results, organized by theme. Present tense for findings.
@@ -761,16 +747,16 @@ This is one of the most rigidly formulaic patterns in the entire corpus — ever
 
 ### 7.4 Academic Vocabulary & Diction
 
-**High-frequency vocabulary (from 46 chunks):**
+**High-frequency vocabulary :**
 
 *Research-summary vocabulary:*
-- "the impact of" (21), "the effects of" (7), "the relationship between" (9)
-- "the results of" (7), "based on the" (8)
+- "the impact of" (21), "the effects of" "the relationship between" (9)
+- "the results of" "based on the" (8)
 - "we use the" (6), "in this paper" (5)
 
 *Policy vocabulary:*
 - "the development of" (15), "the importance of" (10)
-- "should" (83 in 23K words — THE most frequent hedge word in conclusions, almost exclusively for policy recommendations)
+- "should" (dominant — THE most frequent hedge word in conclusions, almost exclusively for policy recommendations)
 - "the market should" (5), "the government should" (2+)
 - "Policymakers should [consider/implement/adopt]..."
 - "It is important for [entity] to [action]..."
@@ -788,17 +774,17 @@ This is one of the most rigidly formulaic patterns in the entire corpus — ever
 - "should" (83) — overwhelmingly dominant, used for policy recommendations
 - "may" (39), "could" (32), "would" (24) — for future research suggestions
 - "suggest(s) that" (17), "indicate(s) that" (8) — for finding interpretation
-- "likely" (11), "might" (7), "tend(s) to" (6)
+- "likely" "might" "tend(s) to" (6)
 
 ### 7.5 Voice & Tense Conventions
 
-**Voice:** Mixed with active preference for findings (103 active "we" vs 197 passive).
+**Voice:** Mixed with active preference for findings (active for findings summary).
 
 - Study summary: active "we" ("We have studied", "We examined", "We find that")
 - Findings: mixed ("The findings reveal" / "We find")
 - Policy recommendations: passive tendency ("Policymakers should consider...", "Strategies should be implemented...") but also active imperatives
 
-**Tense:** Present dominant for findings (20 present vs 7 past), with a specific pattern:
+**Tense:** Present dominant for findings present tense dominant, with a specific pattern:
 - **Present perfect** for paper summary: "We have studied", "This paper has examined"
 - **Present tense** for findings: "The results show", "The findings reveal"
 - **Past tense** for specific procedural actions: "We used two econometric approaches"
@@ -806,11 +792,11 @@ This is one of the most rigidly formulaic patterns in the entire corpus — ever
 
 ### 7.6 Transition & Cohesion Patterns
 
-**Transition profile (from 46 chunks):**
+**Transition profile :**
 
 - Enumeration (policy): "First" (21), "Second" (18), "Third" (10), "Finally" (12) — heavily used for listing policy implications
 - "However" (22) — qualifying findings, acknowledging limitations
-- "Therefore" (14), "Thus" (10), "Hence" (7), "Consequently" (3) — consequence, often leading to policy
+- "Therefore" (14), "Thus" (10), "Hence" "Consequently" (3) — consequence, often leading to policy
 - "In addition" (13), "Furthermore" (10), "Moreover" (9), "Additionally" (8) — additive
 - "Overall" (8) — summary signal
 - "consistent with" (12), "In contrast" (5), "Similarly" (2) — comparison
@@ -831,7 +817,7 @@ These patterns transcend individual chapter types and apply to the entire manusc
 
 ### C.1 Citation Convention
 
-**Dominant citation style:** Author (Year) format, integrated as grammatical sentence elements. Frequency: 1,500+ occurrences across all chapters.
+**Dominant citation style:** Author (Year) format, integrated as grammatical sentence elements. Frequency: numerous occurrences across all chapters.
 
 - "Author (Year) find(s)/show(s)/argue(s) that..." — integrated as sentence subject
 - "..., as documented by Author (Year)" — integrated as evidential support
@@ -839,21 +825,21 @@ These patterns transcend individual chapter types and apply to the entire manusc
 - "Author, Author, and Author (Year)" — three-author first mention
 - "Author et al. (Year)" — four+ authors
 
-**Strict rule from data:** The "Author, Year" format (527 intro + 296 review + ... = ~1,000+ across corpus) appears but is significantly less frequent than "Author (Year)". The parenthetical-only "..., (Author, Year)" style is rare in the narrative flow.
+**Strict rule from data:** The "Author, Year" format (dominant citation style, ... = frequently) appears but is significantly less frequent than "Author (Year)". The parenthetical-only "..., (Author, Year)" style is rare in the narrative flow.
 
 ### C.2 "We" as Default Agent
 
 Every chapter type shows active "we" as the standard first-person agent. "I" is never used. "The author(s)" is occasionally used in third-person self-reference but is a minority pattern.
 
-Active "we" frequency by chapter:
-- Abstract: 72 (highest density)
-- Introduction: 467
-- Variables: 417
-- Results: 251
-- Robustness: 136
-- Model: 115
-- Conclusion: 103
-- Review: 77 (lowest density — lit reviews use more third-person)
+Active "we" frequency by chapter (relative density):
+- Abstract: highest density
+- Introduction: very high
+- Variables: high
+- Results: moderate
+- Robustness: moderate
+- Model: moderate
+- Conclusion: moderate
+- Review: lowest density — lit reviews use more third-person)
 
 ### C.3 Hedging Hierarchy
 
@@ -864,27 +850,27 @@ Hedging intensity decreases as papers move from introduction to conclusion:
 **Light hedging:** Abstract, Model
 
 **Dominant hedge words across all chapters (by total frequency):**
-1. "may" (~450 across all chapters)
-2. "likely" (~200)
-3. "should" (~230 — dual use: hedge + policy recommendation)
-4. "suggest(s) that" (~150)
-5. "could" (~130)
-6. "would" (~130)
-7. "indicate(s) that" (~100)
+1. "may" — most common
+2. "likely"
+3. "should" (dual use: hedge + policy recommendation) — dual use: hedge + policy recommendation)
+4. "suggest(s) that"
+5. "could"
+6. "would"
+7. "indicate(s) that"
 
 ### C.4 Table/Figure Referencing Convention
 
 **Rigid patterns (observed across all empirical chapters):**
 
 - "Table [N] [presents/reports/shows] the [results/statistics]." — Standard reference
-- "[Insert Table N about here]" — Placement marker (appears in 8+ chunks across variables/results)
+- "[Insert Table N about here]" — Placement marker (appears in variables/results)
 - "As shown in Table [N]..." (6+), "As shown in Figure [N]..." (5+)
-- "***, **, and * indicate significance at the 1%, 5%, and 10% levels, respectively." (observed in 10+ results/robustness chunks)
+- "***, **, and * indicate significance at the 1%, 5%, and 10% levels, respectively." (observed in the corpus)
 - "t-statistics are reported in parentheses." (4+) / "Standard errors are in parentheses." (4+)
 
 ### C.5 Prohibited Constructions
 
-Based on their complete absence from the 575-chunk, 320,000-word corpus:
+Based on their complete absence from the sampled corpus:
 
 - No contractions (don't, can't, won't, it's)
 - No rhetorical questions

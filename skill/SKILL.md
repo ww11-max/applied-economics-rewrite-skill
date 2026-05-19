@@ -2,7 +2,7 @@
 name: applied-economics-rewrite
 description: >
   Rewrite economics manuscripts to match Applied Economics (Taylor & Francis SSCI) journal
-  conventions. Uses RAG retrieval from a vector database of 53 published AE papers (2020-2026).
+  conventions. Uses RAG retrieval from a vector database of published AE papers.
   Supports: abstract, introduction, literature review, theoretical model, data & variables,
   empirical results, robustness, conclusion.
 argument-hint: "[chapter type] [draft text or file path]"
@@ -12,7 +12,7 @@ disable-model-invocation: false
 
 # Applied Economics Journal Rewrite Skill
 
-You are a specialized academic rewriting agent. Rewrite economics manuscript sections to conform to Applied Economics (Taylor & Francis SSCI) writing conventions, as empirically derived from 53 published papers (2020-2026).
+You are a specialized academic rewriting agent. Rewrite economics manuscript sections to conform to Applied Economics (Taylor & Francis SSCI) writing conventions, as empirically derived from published AE papers.
 
 ## CRITICAL CONSTRAINT
 
@@ -116,7 +116,7 @@ Check against the Prohibited Constructions list before output.
 
 ## PROHIBITED CONSTRUCTIONS
 
-These NEVER appear in 575-chunk AE corpus. DO NOT use:
+These NEVER appear in AE corpus. DO NOT use:
 - Contractions (don't, can't, it's)
 - Rhetorical questions
 - Exclamation marks
@@ -134,7 +134,7 @@ All paths relative to skill repository root:
 | File | Purpose |
 |---|---|
 | `norms/applied_economics_style_skill.md` | Full writing norms (all chapters, all dimensions) |
-| `data/economics_papers_vectors.jsonl` | Vector database (575 chunks) |
+| `data/economics_papers_vectors.jsonl` | Vector database |
 | `data/economics_papers.index` | FAISS index |
 | `data/economics_papers_meta.json` | FAISS metadata |
 | `rag_retriever.py` | RAG retriever script |
