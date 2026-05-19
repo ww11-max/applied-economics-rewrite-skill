@@ -71,6 +71,157 @@ If provenance cannot be established, the claim must not be written.
 
 ---
 
+## STRUCTURE LIBRARY: AE JOURNAL MANUSCRIPT TEMPLATES
+
+Derived from structural analysis of published AE papers. Five templates extracted by clustering 24 observed chapter-type combinations. Each template represents a distinct manuscript architecture.
+
+### Template T1: Full 8-Chapter (完整八章型)
+
+```
+abstract → introduction → literature_review → theoretical_model
+  → data_and_variables → empirical_results → robustness → conclusion
+```
+
+**Best for:** Theory-heavy empirical papers that develop a formal model, then test it. Comprehensive robustness checks.
+
+**Identifying features:**
+- Standalone literature review chapter (NOT embedded in introduction)
+- Formal mathematical or theoretical model chapter
+- Separate robustness chapter (distinct from empirical results)
+- Full policy implications in conclusion
+- Typically longer manuscripts (>8,000 words)
+
+**Example from corpus:** Afonso & Coelho (2025) — fiscal sustainability with formal reaction functions.
+
+### Template T2: Standard Empirical (标准实证型)
+
+```
+abstract → introduction → data_and_variables → empirical_results
+  → conclusion
+```
+
+*Variant T2a:* `...+ robustness before conclusion`  
+*Variant T2b:* `... + literature_review after introduction`
+
+**Best for:** THE most common AE structure. Empirical papers where the literature review is embedded within the introduction and the theoretical framework is concise.
+
+**Identifying features:**
+- Literature review integrated into introduction (not standalone)
+- No separate theoretical model chapter (theory in intro or data section)
+- Data → Results → Conclusion as the core empirical pipeline
+- Robustness may or may not be a separate section
+
+**Example from corpus:** Churchill & Marisetty (2020) — financial inclusion and poverty.
+
+### Template T3: Model-Driven (模型驱动型)
+
+```
+abstract → introduction → literature_review → theoretical_model
+  → data_and_variables → conclusion
+```
+
+**Best for:** Macro/fiscal/monetary papers where the theoretical contribution is central. Empirical results may be secondary or integrated into the data section.
+
+**Identifying features:**
+- Prominent theoretical model chapter with formal derivation
+- Literature review typically present as standalone
+- Empirical results may be merged into data or conclusion
+- Robustness is minimal or absent as separate section
+- Often fiscal policy, monetary economics, DSGE-adjacent
+
+**Example from corpus:** Bentour (2021) — public debt and growth thresholds.
+
+### Template T4: Data Brief (数据简报型)
+
+```
+abstract → introduction → data_and_variables → empirical_results
+```
+
+**Best for:** Short communications, data-focused empirical studies, replication-style papers. Minimal length (<4,000 words).
+
+**Identifying features:**
+- Compact overall structure (3-4 chapters)
+- No standalone conclusion (findings wrap up in empirical results)
+- No robustness or theoretical model chapters
+- Literature is minimal and embedded in introduction
+
+**Example from corpus:** Leng et al. (2020) — ICT adoption and income diversification.
+
+### Template T5: Robustness-Focused (稳健导向型)
+
+```
+abstract → introduction → data_and_variables → empirical_results
+  → robustness → conclusion
+```
+
+**Best for:** Causal identification papers using IV, DiD, RDD, PSM. Endogeneity-heavy studies where robustness is the primary credibility mechanism.
+
+**Identifying features:**
+- Prominent, standalone robustness chapter with multiple tests
+- Causal language prominent (IV, DiD, RDD, PSM, endogeneity, identification)
+- Placebo tests, alternative specifications, sub-sample analysis
+- Literature review may be embedded in introduction
+
+**Example from corpus:** Jiang et al. (2021) — institutional ownership and tax avoidance.
+
+---
+
+### Template Matching Algorithm
+
+Score each template against the manuscript on the following dimensions. Each match = +1. Highest score wins. Ties default to T2.
+
+| # | Feature Check | T1 | T2 | T3 | T4 | T5 |
+|---|---|---|---|---|---|---|
+| 1 | Has standalone literature review chapter? | +1 | 0 | +1 | 0 | 0 |
+| 2 | Has formal math/theory model chapter? | +1 | 0 | +1 | 0 | 0 |
+| 3 | Has separate robustness section? | +1 | +1 | 0 | 0 | +1 |
+| 4 | Has policy implications / conclusion? | +1 | +1 | +1 | 0 | +1 |
+| 5 | Total word count <4,000? | 0 | 0 | 0 | +1 | 0 |
+| 6 | Total word count >8,000? | +1 | 0 | +1 | 0 | 0 |
+| 7 | LR embedded in intro (no standalone LR)? | 0 | +1 | 0 | +1 | +1 |
+| 8 | Heavy causal language (IV/DiD/RDD/PSM)? | 0 | 0 | 0 | 0 | +1 |
+
+---
+
+### Restructuring Protocol
+
+When restructuring a manuscript to match the selected template:
+
+**Merge operations:**
+- Multiple intro-adjacent chapters → single Introduction (funnel structure)
+- "Research Background" + "Problem Statement" + "Research Significance" → Introduction
+- Methodology subsections → single `theoretical_model` or `data_and_variables`
+- Results scattered across multiple chapters → single `empirical_results`
+- "Research Conclusions" + "Policy Recommendations" → single `conclusion`
+
+**Split operations:**
+- Introduction containing long lit review → split into `introduction` + `literature_review` (if T1/T3)
+- Results containing robustness checks → split into `empirical_results` + `robustness` (if T1/T5)
+
+**Discard operations:**
+- "Acknowledgments" → discard (AE handles separately)
+- "Appendix" → flag for supplementary materials
+- "Research Limitations and Future Outlook" if already covered in conclusion → merge, don't duplicate
+- "Table of Contents", "List of Figures", "Abbreviations" → discard
+- "致谢" (Chinese acknowledgments) → discard
+
+**New-section construction:**
+- If template requires `literature_review` but source lacks it → extract lit-review content from introduction
+- If template requires `conclusion` but source lacks it → extract from final discussion/implications paragraphs
+- If template requires `robustness` but source lacks it → flag: "Template requires robustness; source manuscript lacks identifiable robustness content"
+
+**Word-count allocation guidelines (derived from corpus proportions):**
+- Abstract: 100-200 words
+- Introduction: 15-20% of total
+- Literature Review (if standalone): 10-15% of total
+- Theoretical Model (if standalone): 10-15% of total
+- Data & Variables: 15-20% of total
+- Empirical Results: 25-35% of total
+- Robustness (if standalone): 10-15% of total
+- Conclusion: 5-10% of total
+
+---
+
 ## BATCH 1: ABSTRACT WRITING NORMS
 
 ### 1.1 Structure Logic
