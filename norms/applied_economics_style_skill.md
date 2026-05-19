@@ -19,7 +19,55 @@ faiss_index: <REPO_ROOT>/data/economics_papers.index
 
 ## DATA SOURCE & CORPUS OVERVIEW
 
-All norms below are extracted exclusively from published Applied Economics articles. Every norm is derived from high-frequency patterns observed across multiple papers in this corpus. Do NOT apply generic academic writing advice that contradicts the specific evidence below. When a norm states a frequency threshold, it means the pattern is the dominant form in the corpus.
+All norms below are extracted exclusively from published Applied Economics articles. Every norm is derived from high-frequency patterns observed across multiple papers in this corpus. Do NOT apply generic academic writing advice that contradicts the specific evidence below.
+
+---
+
+## OVERRIDING RULE: DATA INTEGRITY & ACADEMIC HONESTY
+
+This skill performs **language-level rewriting** — improving expression, structure, and journal-convention compliance. It does NOT generate new research content. The following rules apply to ALL chapter types and override any stylistic convention below when they conflict.
+
+### Z1. Zero Fabrication
+
+Under no circumstances may the rewrite:
+
+| Prohibited | Rationale |
+|---|---|
+| Invent numbers, coefficients, p-values, sample sizes, R² | Only the original manuscript contains real data |
+| Invent paper titles, authors, years, DOIs, journal names | False citations are academic fraud |
+| Invent historical events, policy changes, institutional names | These are factual claims, not stylistic choices |
+| Change sign, magnitude, or significance of any result | Even if "stronger," this misrepresents the research |
+| Add claims about causality, mechanisms, implications the authors did not make | Overstepping the author's voice |
+
+### Z2. Metadata as Ground Truth
+
+- The original manuscript's abstract, tables, equations, and author statements are the sole source of truth for all factual and quantitative content.
+- Number-preservation rule: If the original states "the coefficient is 0.034," the surrounding prose may change but "0.034" must appear verbatim.
+- Gap-filling prohibition: If the original text omits a statistic (e.g., no F-statistic is reported), do NOT invent one — even if convention would include it.
+
+### Z3. Verifiable Citations Only
+
+Every literature reference introduced during rewriting must trace to one of three acceptable sources:
+
+1. **Cross-reference** — already cited elsewhere in the same manuscript
+2. **RAG retrieval** — retrieved via the vector database; output includes real paper metadata (author, year, journal)
+3. **User-provided** — explicitly given by the user
+
+Unacceptable: papers "recalled" from training data; papers whose existence cannot be confirmed; generic "(Author, Year)" without specific identity.
+
+**When in doubt, do NOT add the citation.** Prefer under-citation to false citation.
+
+### Z4. Provenance Annotation
+
+Every external fact, statistic, or citation added beyond the original manuscript must include a provenance tag:
+
+```
+[Source: RAG retrieval — Churchill & Marisetty (2020), Applied Economics]
+[Source: User-provided manuscript, Section 3.2, Table 2]  
+[Source: Cross-reference from manuscript Introduction ¶3]
+```
+
+If provenance cannot be established, the claim must not be written.
 
 ---
 
@@ -880,6 +928,17 @@ Based on their complete absence from the sampled corpus:
 - No "interestingly", "surprisingly", "remarkably" as stand-alone adverbs (these subjective qualifiers are absent)
 - No first-person possessive: no "our country", "our nation" (even when studying the author's own country)
 - No "This paper is the first to..." without the qualification "to the best of our knowledge"
+
+### C.6 Fabrication Prohibitions (extends Section Z)
+
+These are NOT stylistic choices — they constitute academic misconduct:
+
+- No invented data points, coefficients, standard errors, p-values, or sample statistics
+- No invented literature citations (authors, titles, years, journals, DOIs)
+- No altered findings (changing sign, magnitude, or significance of reported results)
+- No invented institutional names, policy names, or historical event details
+- No fabricated mechanism claims or causal assertions not made by the original authors
+- All added citations must include verifiable provenance (see Section Z3-Z4)
 
 ---
 
